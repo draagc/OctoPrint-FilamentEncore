@@ -8,11 +8,12 @@ from time import sleep
 from flask import jsonify
 
 
-class FilamentReloadedPlugin(octoprint.plugin.StartupPlugin,
-                             octoprint.plugin.EventHandlerPlugin,
-                             octoprint.plugin.TemplatePlugin,
-                             octoprint.plugin.SettingsPlugin,
-                             octoprint.plugin.BlueprintPlugin):
+class FilamentEncorePlugin(octoprint.plugin.StartupPlugin,
+                           octoprint.plugin.EventHandlerPlugin,
+                           octoprint.plugin.TemplatePlugin,
+                           octoprint.plugin.AssetPlugin,
+                           octoprint.plugin.SettingsPlugin,
+                           octoprint.plugin.BlueprintPlugin):
 
     def initialize(self):
         self._logger.info(
@@ -23,10 +24,16 @@ class FilamentReloadedPlugin(octoprint.plugin.StartupPlugin,
 
     @octoprint.plugin.BlueprintPlugin.route("/status", methods=["GET"])
     def check_status(self):
-        status = "-1"
+        status = -1
         if self.sensor_enabled():
-            status = "0" if self.no_filament() else "1"
+            status = 0 if self.no_filament() else 1
         return jsonify(status=status)
+
+    def get_assets(self):
+        return dict(
+            js=["js/filament.js"],
+            clientjs=["clientjs/filament.js"]
+        )
 
     @property
     def pin(self):
@@ -77,7 +84,7 @@ class FilamentReloadedPlugin(octoprint.plugin.StartupPlugin,
                 "Pin not configured, won't work unless configured!")
 
     def on_after_startup(self):
-        self._logger.info("Filament Sensor Reloaded started")
+        self._logger.info("Filament Sensor Encore started")
         self._setup_sensor()
 
     def get_settings_defaults(self):
@@ -174,28 +181,28 @@ class FilamentReloadedPlugin(octoprint.plugin.StartupPlugin,
     def get_update_information(self):
         return dict(
             octoprint_filament=dict(
-                displayName="Filament Sensor Reloaded",
+                displayName="Filament Sensor Encore",
                 displayVersion=self._plugin_version,
 
                 # version check: github repository
                 type="github_release",
-                user="kontakt",
-                repo="Octoprint-Filament-Reloaded",
+                user="draagc",
+                repo="Octoprint-FilamentEncore",
                 current=self._plugin_version,
 
                 # update method: pip
-                pip="https://github.com/kontakt/Octoprint-Filament-Reloaded/archive/{target_version}.zip"
+                pip="https://github.com/draagc/OctoPrint-FilamentEncore/archive/{target_version}.zip"
             )
         )
 
 
-__plugin_name__ = "Filament Sensor Reloaded"
-__plugin_version__ = "1.0.2"
+__plugin_name__ = "Filament Sensor Encore"
+__plugin_version__ = "1.0.0"
 
 
 def __plugin_load__():
     global __plugin_implementation__
-    __plugin_implementation__ = FilamentReloadedPlugin()
+    __plugin_implementation__ = FilamentEncorePlugin()
 
     global __plugin_hooks__
     __plugin_hooks__ = {
