@@ -191,7 +191,7 @@ class FilamentEncorePlugin(octoprint.plugin.StartupPlugin,
                 current=self._plugin_version,
 
                 # update method: pip
-                pip="https://github.com/draagc/OctoPrint-FilamentEncore/archive/{target_version}.zip"
+                pip="https://github.com/draagc/OctoPrint-FilamentEncore/archive/{target}.zip"
             )
         )
 

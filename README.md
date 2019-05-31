@@ -1,4 +1,4 @@
-# OctoPrint-FilamentReloaded
+# OctoPrint-FilamentEncore
 
 [OctoPrint](http://octoprint.org/) plugin that integrates with a filament sensor hooked up to a Raspberry Pi GPIO pin and allows the filament spool to be changed during a print if the filament runs out.
 
