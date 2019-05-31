@@ -180,7 +180,7 @@ class FilamentEncorePlugin(octoprint.plugin.StartupPlugin,
 
     def get_update_information(self):
         return dict(
-            octoprint_filament=dict(
+            filamentencore=dict(
                 displayName="Filament Sensor Encore",
                 displayVersion=self._plugin_version,
 
